@@ -38,5 +38,12 @@ export class UserService {
         }
         );
     }
+
+    getAllUsers(): Observable<any> {
+      return this.http.get<any> (
+        'http://localhost:7000/api/users/GetAllUsers'
+      );
+    }
+
 }
 

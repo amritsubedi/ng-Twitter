@@ -56,11 +56,13 @@
     <div class="card">
       <div class="card-body">
         <h6 class="card-title">Who to follow <small>.Refresh. View All</small></h6>
-        <p class="card-text">Some User 1</p>
-        <a href="#" class="btn btn-outline-primary">Follow this user</a>
-        <hr/>
-        <p class="card-text">Some User 1</p>
-        <a href="#" class="btn btn-outline-primary">Follow this user</a>
+        <div *ngFor="let whoToFollow of WhoToFollow" >
+          <span *ngIf="whoToFollow?.id !== current_user_id">
+            <p class="card-text"><strong>{{whoToFollow?.name}}</strong></p>
+            <a href="#" class="btn btn-outline-primary">Follow this user</a>
+          </span>
+          <hr/>
+        </div>
       </div>
     </div>
   </div>

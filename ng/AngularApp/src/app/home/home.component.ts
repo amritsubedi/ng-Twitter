@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   currentUser: any;
   allTweets: any[];
   totalUserTweets: number;
+  WhoToFollow: any[];
   content:string;
   current_user_id = parseInt(localStorage.getItem('user_id'), 10);
 
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit {
     this.load_user_data();
     this.load_all_tweets();
     this.getUserTweetCount();
+    this.getUsers();
     }
 
     load_user_data(): void {
@@ -40,6 +42,14 @@ export class HomeComponent implements OnInit {
         });
     }
 
+    getUsers(): void {
+      this.userService.getAllUsers()
+        .subscribe(response => {
+          console.log(response);
+          this.WhoToFollow = response;
+        })
+    }
+
     getUserTweetCount(): void {
       this.tweetService.getUserTweetCount(this.current_user_id)
         .subscribe(response => {
@@ -50,7 +60,8 @@ export class HomeComponent implements OnInit {
     tweet(): void {
       this.tweetService.tweet(this.content, this.current_user_id)
         .subscribe(response => {
-          this.ngOnInit();
+          this.load_all_tweets();
+          this.getUserTweetCount();
         });
     }
 
@@ -58,7 +69,8 @@ export class HomeComponent implements OnInit {
     console.log($event.target.value);
       this.tweetService.deleteTweet($event.target.value, this.current_user_id)
         .subscribe(response => {
-          this.ngOnInit();
+          this.getUserTweetCount();
+          this.load_all_tweets();
         });
     }
 }
